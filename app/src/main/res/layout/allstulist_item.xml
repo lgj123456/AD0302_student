@@ -5,6 +5,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="50dp"
+    android:layout_margin="3px"
     android:orientation="horizontal"
     >
 <ImageView
@@ -12,7 +13,7 @@
     android:layout_height="50dp"
     android:id="@+id/head_img"
     android:scaleType="centerCrop"
-    android:src="@drawable/a"
+
     />
 <TextView
     android:layout_width="0dp"
@@ -26,6 +27,7 @@
         android:layout_weight="1"
         android:layout_height="50dp"
         android:id="@+id/tv_name"
+        android:gravity="center"
         />
 
     <TextView
@@ -33,6 +35,7 @@
         android:layout_weight="1"
         android:layout_height="50dp"
         android:id="@+id/tv_age"
+        android:gravity="center"
         />
 
     <TextView
@@ -40,6 +43,7 @@
         android:layout_weight="1"
         android:layout_height="50dp"
         android:id="@+id/tv_sex"
+        android:gravity="center"
         />
 
 </LinearLayout>
