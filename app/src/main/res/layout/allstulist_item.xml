@@ -20,6 +20,7 @@
     android:layout_weight="1"
     android:layout_height="50dp"
     android:id="@+id/tv_id"
+    android:layout_marginLeft="5dp"
     />
 
     <TextView
