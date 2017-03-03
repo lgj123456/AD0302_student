@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -106,11 +107,12 @@ public class MainActivity extends AppCompatActivity {
                         getAllStu();
                     }
                 });
+                clearEdt();
 
             }
         });
 
-        clearEdt();
+
 
     }
 
@@ -138,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
     //更新
     private void updateStu(int id, String name, int age, String sex) {
-        getContent();
+
         Map params = new HashMap();
         params.put("id", id+"");
         params.put("name", name);
@@ -157,11 +159,17 @@ public class MainActivity extends AppCompatActivity {
                 getAllStu();
             }
         });
+        getContent();
         clearEdt();
     }
 
     private void insertStu(int id, String name, int age, String sex) {
-
+        try {
+            byte[] b = name.getBytes("UTF-8");
+           name = new String(b,"ISO8859-1");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         Map params = new HashMap();
         params.put("id", id+"");
