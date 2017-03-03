@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private int age;
     private String sex;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,12 +66,14 @@ public class MainActivity extends AppCompatActivity {
         medt_age = (EditText) findViewById(R.id.edt_age);
         medt_sex = (EditText) findViewById(R.id.edt_sex);
         medt_name = (EditText) findViewById(R.id.edt_name);
+
         getAllStu();
         mbtn_insert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getContent();
                 insertStu(id, name, age, sex);
+                clearEdt();
             }
         });
 
@@ -107,8 +110,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        clearEdt();
 
+    }
 
+    private void clearEdt() {
+        medt_id.setText("");
+        medt_name.setText("");
+        medt_sex.setText("");
+        medt_age.setText("");
     }
 
     private void getContent() {
@@ -128,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
     //更新
     private void updateStu(int id, String name, int age, String sex) {
+        getContent();
         Map params = new HashMap();
         params.put("id", id+"");
         params.put("name", name);
@@ -146,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 getAllStu();
             }
         });
+        clearEdt();
     }
 
     private void insertStu(int id, String name, int age, String sex) {

@@ -3,12 +3,13 @@ package com.example.yhdj.ad0302student;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -24,6 +25,8 @@ public class AllimageList extends AppCompatActivity {
     private Gson mGson;
     private final String IMG_URL = "http://192.168.134.79:8080/Student/Img";
     private AllImgListBean imgs;
+    private final String UPDATE_IMG_URL = "http://192.168.134.79:8080/Student/updateImg";
+    private int StuId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,8 @@ public class AllimageList extends AppCompatActivity {
 
     private void initViews() {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
-        final StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        //final LinearLayoutManager manager = new LinearLayoutManager(this);
+        final GridLayoutManager manager = new GridLayoutManager(this,3);
         OkHttpUtils.get().url(IMG_URL).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -59,8 +63,8 @@ public class AllimageList extends AppCompatActivity {
             }
         });
         Intent intent = getIntent();
-        int StuId = intent.getIntExtra("id", 1);
-
+         StuId = intent.getIntExtra("id", 1);
+        Toast.makeText(this, ""+StuId, Toast.LENGTH_SHORT).show();
 
 
 
@@ -83,10 +87,40 @@ class ImgMyAdapter extends RecyclerView.Adapter<ImgMyAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(ImgMyAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final ImgMyAdapter.ViewHolder holder, int position) {
 
         AllImgListBean.ImgListBean imgListBean = mAllImgListBean.getImgList().get(position);
         Glide.with(AllimageList.this).load(imgListBean.getImg()).into(holder.img);
+
+        holder.img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int index = holder.getAdapterPosition();
+                AllImgListBean.ImgListBean image = mAllImgListBean.getImgList().get(index);
+                OkHttpUtils.get().url(UPDATE_IMG_URL)//
+                        .addParams("id",String.valueOf(StuId))//
+                        .addParams("img",image.getImg())//
+                        .build().execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        if(response.toString().equals("yes")){
+                            Toast.makeText(AllimageList.this, "请点击刷新按钮刷新列表！！！", Toast.LENGTH_SHORT).show();
+                          Intent i = new Intent(AllimageList.this,MainActivity.class);
+                            startActivity(i);
+                            finish();
+                        }else {
+                            Toast.makeText(AllimageList.this, "更新失败！！！", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+
 
     }
 
