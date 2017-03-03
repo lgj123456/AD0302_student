@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.example.yhdj.ad0302student.imageList">
+    tools:context="com.example.yhdj.ad0302student.AllimageList">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

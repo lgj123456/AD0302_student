@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
             holder.head_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent  = new Intent(MainActivity.this,imageList.class);
+                    Intent intent  = new Intent(MainActivity.this,AllimageList.class);
                     intent.putExtra("id",stuListBean.getId());
                     startActivity(intent);
 
